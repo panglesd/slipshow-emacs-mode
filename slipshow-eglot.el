@@ -14,7 +14,7 @@
    (vector (eglot-path-to-uri (buffer-file-name)))))
 
 (defun slipshow-preview-go-previous ()
-  "Go forward one step in the preview"
+  "Go backward one step in the preview"
   (interactive)
   (slipshow--execute-command
    "slipshow.go_previous"
