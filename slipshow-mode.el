@@ -2,6 +2,32 @@
 
 (require 'slipshow-eglot)
 
+(defgroup slipshow nil
+  "Major mode for interacting with Slipshow."
+  :link '(url-link "https://slipshow.org")
+  :group 'languages
+  :prefix "slipshow-")
+
+(defun slipshow--set-and-resend-conf (symbol value)
+  "Set a config symbol and send the new conf to all slipshow eglot servers."
+  (set-default symbol value)
+  (slipshow-resend-conf))
+
+(defcustom slipshow-refresh-on 'on-key-stroke
+  "When to refresh the slipshow preview"
+  :group 'slipshow
+  :set #'slipshow--set-and-resend-conf
+  :type '(choice (const :tag "Refresh on every key stroke" on-key-stroke)
+                 (const :tag "Refresh on save" on-save)))
+
+(defun slipshow-config (_server)
+  "Compute the config for slipshow from the custom variables."
+  `(:slipshow
+    (:refreshOn
+     ,(pcase slipshow-refresh-on
+        ('on-key-stroke "Key stroke")
+        ('on-save "Save")))))
+
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.slp\\'" . slipshow-mode))
 
@@ -13,4 +39,5 @@
 (define-derived-mode slipshow-mode
   markdown-mode "Slipshow"
   "Major mode for editing slipshow files"
+  (setq-local eglot-workspace-configuration #'slipshow-config)
   (eglot-ensure))
