@@ -28,3 +28,5 @@
   "Major mode for editing slipshow files"
   (slipshow--set-dir-locals-var)
   (eglot-ensure))
+
+(provide 'slipshow-mode)
