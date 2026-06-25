@@ -22,6 +22,28 @@
    "slipshow.go_previous"
    (vector (eglot-path-to-uri (buffer-file-name)))))
 
+(defun slipshow-config ()
+  "Compute the config for slipshow from the custom variables."
+  `(:slipshow
+    (:refreshOn
+     ,(pcase slipshow-refresh-on
+        ('on-key-stroke "Key stroke")
+        ('on-save "Save")))))
+
+(defun slipshow--set-dir-locals-var ()
+  "Sets the dir locals variables"
+  (dir-locals-set-class-variables
+   'slipshow-class
+   `((slipshow-mode
+     . ((eglot-workspace-configuration
+         . ,(slipshow-config))))))
+  (let ((dir
+         (if-let*
+             ((p-cur (project-current)))
+             (project-root p-cur)
+           default-directory)))
+    (dir-locals-set-directory-class dir 'slipshow-class)))
+
 ;; Create a variable containing the servers that were already notified
 ;; For every buffer
 ;;   If the buffer has an eglot server (eglot-current-server) and has the slipshow major mode
