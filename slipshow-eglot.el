@@ -22,6 +22,8 @@
    "slipshow.go_previous"
    (vector (eglot-path-to-uri (buffer-file-name)))))
 
+(defvar slipshow-refresh-on)
+
 (defun slipshow-config ()
   "Compute the config for slipshow from the custom variables."
   `(:slipshow
@@ -29,24 +31,6 @@
      ,(pcase slipshow-refresh-on
         ('on-key-stroke "Key stroke")
         ('on-save "Save")))))
-
-(defgroup slipshow nil
-  "Major mode for interacting with Slipshow."
-  :link '(url-link "https://slipshow.org")
-  :group 'languages
-  :prefix "slipshow-")
-
-(defun slipshow--set-and-resend-conf (symbol value)
-  "Set a config symbol and send the new conf to all slipshow eglot servers."
-  (set-default symbol value)
-  (slipshow-resend-conf))
-
-(defcustom slipshow-refresh-on 'on-key-stroke
-  "When to refresh the slipshow preview"
-  :group 'slipshow
-  :set #'slipshow--set-and-resend-conf
-  :type '(choice (const :tag "Refresh on every key stroke" on-key-stroke)
-                 (const :tag "Refresh on save" on-save)))
 
 (defun slipshow--set-dir-locals-var ()
   "Sets the dir locals variables"
@@ -78,5 +62,23 @@
                 (push server signaled-servers)
                 (slipshow--set-dir-locals-var)
                 (eglot-signal-didChangeConfiguration server))))))))) ; So many closing parenthesis...
+
+(defgroup slipshow nil
+  "Major mode for interacting with Slipshow."
+  :link '(url-link "https://slipshow.org")
+  :group 'languages
+  :prefix "slipshow-")
+
+(defun slipshow--set-and-resend-conf (symbol value)
+  "Set a config symbol and send the new conf to all slipshow eglot servers."
+  (set-default symbol value)
+  (slipshow-resend-conf))
+
+(defcustom slipshow-refresh-on 'on-key-stroke
+  "When to refresh the slipshow preview"
+  :group 'slipshow
+  :set #'slipshow--set-and-resend-conf
+  :type '(choice (const :tag "Refresh on every key stroke" on-key-stroke)
+                 (const :tag "Refresh on save" on-save)))
 
 (provide 'slipshow-eglot)
