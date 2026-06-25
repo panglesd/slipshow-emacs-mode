@@ -20,7 +20,7 @@
   :type '(choice (const :tag "Refresh on every key stroke" on-key-stroke)
                  (const :tag "Refresh on save" on-save)))
 
-(defun slipshow-config (_server)
+(defun slipshow-config ()
   "Compute the config for slipshow from the custom variables."
   `(:slipshow
     (:refreshOn
@@ -28,16 +28,30 @@
         ('on-key-stroke "Key stroke")
         ('on-save "Save")))))
 
+(defun slipshow--set-dir-locals-var ()
+  "Sets the dir locals variables"
+  (dir-locals-set-class-variables
+   'slipshow-class
+   `((slipshow-mode
+     . ((eglot-workspace-configuration
+         . ,(slipshow-config))))))
+  (let ((dir
+         (if-let*
+             ((p-cur (project-current)))
+             (project-root p-cur)
+           default-directory)))
+    (dir-locals-set-directory-class dir 'slipshow-class)))
+
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.slp\\'" . slipshow-mode))
 
 ;;;###autoload
 (with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '(slipshow-mode . "slipshow lsp")))
+  (add-to-list 'eglot-server-programs '(slipshow-mode . ("slipshow" "lsp"))))
 
 ;;;###autoload
 (define-derived-mode slipshow-mode
   markdown-mode "Slipshow"
   "Major mode for editing slipshow files"
-  (setq-local eglot-workspace-configuration #'slipshow-config)
+  (slipshow--set-dir-locals-var)
   (eglot-ensure))

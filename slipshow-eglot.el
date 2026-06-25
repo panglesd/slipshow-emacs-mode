@@ -34,6 +34,7 @@
             (when-let* ((server (eglot-current-server)))
               (unless (memq server signaled-servers)
                 (push server signaled-servers)
+                (slipshow--set-dir-locals-var)
                 (eglot-signal-didChangeConfiguration server))))))))) ; So many closing parenthesis...
 
 (provide 'slipshow-eglot)
