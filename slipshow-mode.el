@@ -4,7 +4,7 @@
 
 ;; Author: Paul-Elliot <peada@free.fr>
 ;; Version: 0.1
-;; Package-Requires: ()
+;; Package-Requires: (markdown-mode)
 ;; Keywords: slipshow, presentation
 ;; URL: https://slipshow.org
 
