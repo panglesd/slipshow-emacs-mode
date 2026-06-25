@@ -1,3 +1,5 @@
+;;; slipshow-eglot.el --- Eglot extensions for slipshow -*- coding: utf-8; lexical-binding: t -*-
+
 (require 'eglot)
 
 (defun slipshow--execute-command (cmd args)
