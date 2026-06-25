@@ -1,4 +1,4 @@
-;;; slipshow-mode.el --- Main mode for Slipshow -*- coding: utf-8; lexical-binding: t -*-
+;;; slipshow-mode.el --- Major mode for Slipshow -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2026 Paul-Elliot Anglès d'Auriac
 
