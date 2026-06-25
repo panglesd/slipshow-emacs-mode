@@ -4,7 +4,7 @@
 
 ;; Author: Paul-Elliot <peada@free.fr>
 ;; Version: 0.1
-;; Package-Requires: (markdown-mode)
+;; Package-Requires: ((markdown-mode "0"))
 ;; Keywords: slipshow, presentation
 ;; URL: https://slipshow.org
 
@@ -14,6 +14,7 @@
 ;; editing .slp files, start the preview server and communicate with it.
 
 (require 'slipshow-eglot)
+(require 'markdown-mode)
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.slp\\'" . slipshow-mode))
