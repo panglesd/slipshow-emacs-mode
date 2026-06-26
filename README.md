@@ -34,10 +34,11 @@ file at the root of your project.
 
 ## Install
 
-Fir of all, you need the last release of [slipshow](https://slipshow.org) to be
-installed.
+You need the last release of [slipshow](https://slipshow.org) to be installed,
+as well as a recent emacs (at least `29.1`).
 
-Just append the following line to your `.emacs` file:
+Slipshow is not (yet) on melpa. In the meantime, just append the following line
+to your `.emacs` file:
 
 ```elisp
 (use-package slipshow-mode
