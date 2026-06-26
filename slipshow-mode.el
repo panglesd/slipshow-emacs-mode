@@ -4,7 +4,7 @@
 
 ;; Author: Paul-Elliot <peada@free.fr>
 ;; Version: 0.1
-;; Package-Requires: ((markdown-mode "0"))
+;; Package-Requires: ((markdown-mode "0") (emacs "29.1"))
 ;; Keywords: slipshow, presentation
 ;; URL: https://slipshow.org
 
