@@ -14,6 +14,7 @@
 ;; editing .slp files, start the preview server and communicate with it.
 
 (require 'slipshow-eglot)
+(require 'slipshow-config)
 (require 'markdown-mode)
 
 ;;;###autoload
