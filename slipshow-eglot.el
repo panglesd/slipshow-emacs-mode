@@ -2,6 +2,36 @@
 
 (require 'eglot)
 
+;; Without the :extra keyword, the new method replaces any other method with the
+;; same level of specificity. From the docs:
+;;
+;;   The optional EXTRA element, expressed as ‘:extra STRING’, allows
+;;   you to add more methods, distinguished by STRING, for the same
+;;   specializers and qualifiers.
+;;
+;; Because we don't want to replace, eg ocaml-eglot one's, we use it.
+;; Another option would be to define a specificity.
+(cl-defmethod eglot-client-capabilities :extra "slipshow" :around (_)
+  "Add client capabilities to Eglot for Slipshow server."
+  (let* ((slipshow-capabilities '(:move_from_editor (:version 1)))
+         (capabilities (copy-tree (cl-call-next-method)))
+         (experimental (plist-get capabilities :experimental))
+         (experimental
+          (cond
+           ;; Eglot mainly uses plists to represent json, but some (I'm looking
+           ;; at you, ocaml-eglot!) uses hashtables. This is supported by emacs
+           ;; (through jsonrpc). So we distinguish by (dynamic...) type.
+           ((hash-table-p experimental)
+            (puthash "slipshow" slipshow-capabilities experimental)
+            experimental)
+           ((plistp experimental)
+            (plist-put
+                        experimental
+                        :slipshow
+                        slipshow-capabilities))
+           ((t) '()))))
+    (plist-put capabilities :experimental experimental)))
+
 (defun slipshow--execute-command (cmd args)
   "Make a request to the server"
   (eglot-execute
