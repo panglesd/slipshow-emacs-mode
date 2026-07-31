@@ -26,10 +26,10 @@
             experimental)
            ((plistp experimental)
             (plist-put
-                        experimental
-                        :slipshow
-                        slipshow-capabilities))
-           ((t) '()))))
+             experimental
+             :slipshow
+             slipshow-capabilities))
+           (t '()))))
     (plist-put capabilities :experimental experimental)))
 
 (defun slipshow--execute-command (cmd args)
